@@ -1,0 +1,13 @@
+{
+  "name": "bundocs",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^24.8.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
