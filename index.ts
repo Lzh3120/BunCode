@@ -1,6 +1,6 @@
 import {readdir, rename} from 'node:fs/promises'
 import path from 'node:path'
-
+//循环读取文件并改名
 async function readDirectory(dirPath: string) {
     try {
         const contents = await readdir(dirPath, {withFileTypes: true});
@@ -11,9 +11,9 @@ async function readDirectory(dirPath: string) {
             }else if(dirent.isFile()){
                 console.log(`- ${dirent.name}, ${fullPath}`);
                 //isFile
-                const newName = fullPath;
-                const oldName = "";
-                rename(newName, oldName);
+                const oldName =fullPath;
+                const newName = path.join(dirPath, "案例"+dirent.name);
+                rename(oldName, newName);
             }else {
                 console.log(`other`)
             }
@@ -23,5 +23,5 @@ async function readDirectory(dirPath: string) {
     }
 }
 
-const dir = "D://";
+const dir = "D:\\prompts\\images\\";
 readDirectory(dir);
