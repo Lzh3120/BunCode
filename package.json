@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "start": "bun run src/index.ts",
-    "build": "bun build --compile src/index.ts --outfile hono-server"
+    "build": "bun build --compile src/index.ts --outfile hono-server",
+    "buildLinux": "bun build ./src/index.ts --compile --target=bun-linux-x64 --outfile ./my-linux-app"
   },
 
 
