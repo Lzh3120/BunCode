@@ -1,4 +1,4 @@
-# bundocs
+# docs
 
 To install dependencies:
 

@@ -1,13 +1,21 @@
 {
-  "name": "bundocs",
+  "name": "docs",
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "build": "bun build --compile src/index.ts --outfile hono-server"
+  },
+
+
   "devDependencies": {
-    "@types/bun": "latest",
-    "@types/node": "^24.8.1"
+    "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "hono": "^4.10.3"
   }
 }
