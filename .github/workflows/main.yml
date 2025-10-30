@@ -1,0 +1,52 @@
+name: Bun Linux Compile & Package # 工作流名称
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # 允许手动触发
+    
+jobs:
+  build-linux-executable: # 作业 ID
+    runs-on: ubuntu-latest # 在最新的 Ubuntu 运行器上执行
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+        
+      - name: 🛠️ Install Bun
+        uses: oven-sh/setup-bun@v1
+        
+      - name: 📦 Install dependencies
+        run: bun install --frozen-lockfile # 安装项目依赖，并使用 lockfile 确保版本一致
+
+      - name: 🔨 Compile Bun Executable for Linux
+        # 使用 bun build --compile 编译为独立的 Linux 可执行文件
+        run: bun build ./src/index.ts --compile --target=bun-linux-x64 --outfile hono-server
+        # 注意：此步骤只生成可执行文件 (hono-server)，静态文件不会被自动包含。
+
+      - name: 🔑 Set Permissions (重要!)
+        run: chmod +x hono-server # 赋予可执行文件运行权限
+
+      - name: 📦 Create Distribution Package (包含可执行文件和 public 目录)
+        run: |
+          # 1. 创建一个临时的分发目录
+          mkdir -p dist_package
+          
+          # 2. 复制编译好的可执行文件到分发目录
+          cp hono-server dist_package/
+          
+          # 3. 复制所有静态资源（例如 public 目录）到分发目录
+          # **假设您的静态文件在名为 'public' 的目录下，如果不是，请修改这里的路径**
+          if [ -d "public" ]; then
+            cp -r public dist_package/
+          fi
+          
+          # 4. 将整个分发目录压缩成 ZIP 文件
+          zip -r linux-server-package.zip dist_package
+
+      - name: ⬆️ Upload Artifact (下载制品)
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-server-package # 制品名称，现在是一个 ZIP 包
+          path: linux-server-package.zip # 上传生成的 ZIP 文件
+          retention-days: 7 # 制品保留天数

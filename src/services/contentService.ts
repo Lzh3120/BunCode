@@ -3,7 +3,7 @@ import path from 'node:path'
 import fs from 'node:fs'
 import {write} from '../utils/file.ts'
 
-const baseFolder = "/soft/file";
+const baseFolder = "/root/soft/file";
 
 export async function save(c: Context){
     // 使用 c.req.formData() 解析 multipart/form-data 请求体

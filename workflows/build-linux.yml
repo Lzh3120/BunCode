@@ -1,0 +1,36 @@
+name: Bun Linux Compile
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  build-linux-executable:
+    runs-on: ubuntu-latest # 使用标准的 Linux 环境 (完美解决交叉编译问题)
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Install Bun
+        # 使用 Bun 的官方 Action 或安装脚本
+        uses: oven-sh/setup-bun@v1
+
+      - name: 📦 Install dependencies
+        run: bun install --frozen-lockfile # 确保依赖正确安装
+
+      - name: 🔨 Compile Bun Executable for Linux
+        run: bun build ./src/index.ts --compile --target=bun-linux-x64 --outfile hono-server
+        # 使用 Linux 环境编译 Linux 可执行文件，不会报错
+
+      - name: 🔑 Set Permissions (重要!)
+        run: chmod +x hono-server # 确保可执行文件有运行权限
+
+      - name: ⬆️ Upload Artifact (下载制品)
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-bun-executable
+          path: hono-server # 上传生成的可执行文件
+          retention-days: 7 # 制品保存时间
