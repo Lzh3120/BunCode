@@ -14,8 +14,8 @@ export class ContentDao{
     constructor(){
         this.insertStmt = this.db.query("INSERT INTO contents (content, imgInfo) VALUES ($content, $imgInfo) RETURNING id");
         this.findByIdStmt = this.db.query("SELECT id, content, imgInfo FROM contents WHERE id = $id");
-        this.findAllStmt = this.db.query("SELECT id, content, imgInfo FROM contents");
-        this.deleteByIdStmt = this.db.query("DELETE FROM contents WHERE id = $id");
+        this.findAllStmt = this.db.query("SELECT id, content, imgInfo FROM contents order by id desc"); 
+        this.deleteByIdStmt = this.db.prepare("DELETE FROM contents WHERE id = $id");
     }
     //创建
     public create(content: string, imgInfo: string){

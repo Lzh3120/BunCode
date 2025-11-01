@@ -24,7 +24,7 @@ export async function save(c: Context){
   write(file, "内容：\n");
   write(file, content.toString()+"\n");
   
-  let imageInfo = '未提交图片';
+  let imageInfo = '';
   if (image instanceof File && image.size > 0) {
     const fileName = image.name;
     const fileExtension = path.extname(fileName);
@@ -68,8 +68,8 @@ export async function download(c: Context){
 }
 
 export async function remove(c: Context){
-  const body = await c.req.formData(); 
-  const id = body.get("id");
+  const body = await c.req.json();
+  const id = body.id;
   const contentDao = new ContentDao();
   contentDao.deleteById(Number(id));
   return c.text("remove success");
