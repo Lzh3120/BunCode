@@ -4,8 +4,8 @@ import fs from 'node:fs'
 import {write} from '../utils/file.ts'
 import { ContentDao } from "../db/SQL.ts";
 
-//const baseFolder = "/root/soft/file";
-const baseFolder = "D:\\file";
+const baseFolder = "/root/soft/file";
+//const baseFolder = "D:\\file";
 
 export async function save(c: Context){
     // 使用 c.req.formData() 解析 multipart/form-data 请求体
@@ -17,12 +17,6 @@ export async function save(c: Context){
   if (!content) {
     return c.json({ message: '内容不能为空' }, 400);
   }
-
-  // 1. 处理文本内容
-  console.log('收到的内容:', content);
-  const file = path.join(baseFolder, "content.txt");
-  write(file, "内容：\n");
-  write(file, content.toString()+"\n");
   
   let imageInfo = '';
   if (image instanceof File && image.size > 0) {
