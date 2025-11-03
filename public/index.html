@@ -1,70 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <base href="http://8.140.244.241:3000/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>移动端内容提交</title>
-    
-    <style>
-        /* 简单的移动端样式 */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f9;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            font-size: 1.5em;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-        textarea, input[type="file"], button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            font-size: 1.1em;
-            cursor: pointer;
-            border: none;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #message {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 4px;
-            text-align: center;
-            display: none;
-        }
-        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-    </style>
+    <title>笔记本</title>
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 
@@ -88,69 +29,7 @@
     <div id="message"></div>
 </div>
 
-<script>
-    const form = document.getElementById('submissionForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const messageDiv = document.getElementById('message');
-    const endpoint = '/content/save'; // 目标接口地址
-
-    form.addEventListener('submit', async function(event) {
-        event.preventDefault(); // 阻止表单默认提交行为
-        
-        submitBtn.disabled = true;
-        submitBtn.textContent = '提交中...';
-        messageDiv.style.display = 'none';
-
-        // 1. 创建 FormData 对象
-        const formData = new FormData();
-        
-        // 2. 获取并添加文本内容
-        const content = document.getElementById('content').value;
-        formData.append('content', content);
-
-        // 3. 获取并添加图片文件
-        const imageInput = document.getElementById('image');
-        const imageFile = imageInput.files[0];
-        
-        if (imageFile) {
-            // 将文件添加到 FormData，字段名为 'image'
-            formData.append('image', imageFile, imageFile.name); 
-        }
-
-        try {
-            // 4. 发起 POST 请求
-            // 关键：当使用 FormData 包含文件时，fetch 不需要手动设置 Content-Type 
-            // 浏览器会自动设置 Content-Type 为 multipart/form-data 并带上正确的 boundary
-            const response = await fetch(endpoint, {
-                method: 'POST',
-                body: formData, 
-            });
-
-            const result = await response.json();
-
-            // 5. 处理响应
-            if (response.ok) {
-                showMessage('提交成功！服务器返回: ' + JSON.stringify(result), 'success');
-                form.reset(); // 提交成功后清空表单
-            } else {
-                showMessage(`提交失败: ${response.status} ${response.statusText}`, 'error');
-            }
-
-        } catch (error) {
-            console.error('Fetch Error:', error);
-            showMessage('请求发送失败，请检查网络连接或接口地址。', 'error');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = '提交';
-        }
-    });
-
-    function showMessage(text, type) {
-        messageDiv.textContent = text;
-        messageDiv.className = type; // 设置样式
-        messageDiv.style.display = 'block';
-    }
-</script>
+<script src="js/index.js"></script>
 
 </body>
 </html>
