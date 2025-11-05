@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const pw = localStorage.getItem('password');
+    /*const pw = localStorage.getItem('password');
     if (pw) {
         // 已有密码则直接跳转到主页
         location.href = 'index.html';
         return;
-    }
+    }*/
 
     const form = document.getElementById('loginForm');
     const msg = document.getElementById('message');

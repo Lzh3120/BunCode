@@ -56,3 +56,22 @@ button:hover {
 }
 .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
 .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+input[type="password"] {
+    width: 100%; /* 让输入框占满父容器宽度 */
+    padding: 10px; /* 内边距 */
+    margin-top: 8px; /* 与上方元素的间距 */
+    margin-bottom: 16px; /* 与下方元素的间距 */
+    border: 1px solid #ccc; /* 边框颜色 */
+    border-radius: 4px; /* 圆角边框 */
+    box-sizing: border-box; /* 包括内边距和边框在内计算宽度 */
+    font-size: 16px; /* 字体大小 */
+    font-family: Arial, sans-serif; /* 字体样式 */
+    transition: border-color 0.3s, box-shadow 0.3s; /* 添加过渡效果 */
+}
+
+input[type="password"]:focus {
+    border-color: #007bff; /* 聚焦时的边框颜色 */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 聚焦时的阴影效果 */
+    outline: none; /* 去掉默认的聚焦外框 */
+}

@@ -35,7 +35,7 @@ form.addEventListener('submit', async function(event) {
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
-                Authorization: 'token' + pw
+                Authorization:  pw
             },
             body: formData, 
         });
@@ -47,6 +47,10 @@ form.addEventListener('submit', async function(event) {
             showMessage('提交成功！服务器返回: ' + JSON.stringify(result), 'success');
             form.reset(); // 提交成功后清空表单
         } else {
+            if(response.status === 401){
+                showMessage('提交失败: 未授权，请检查密码。', 'error');
+                location.href = 'login.html';
+            }
             showMessage(`提交失败: ${response.status} ${response.statusText}`, 'error');
         }
 

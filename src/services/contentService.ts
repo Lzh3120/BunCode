@@ -10,7 +10,10 @@ const baseFolder = "/root/soft/file";
 export async function save(c: Context){
     // 使用 c.req.formData() 解析 multipart/form-data 请求体
   const body = await c.req.formData(); 
-  
+  const authorization = c.req.header("Authorization");
+  if(authorization !== 'cC321321..'){
+    return c.json({ message: 'Unauthorized' }, 401);
+  }
   const content = body.get('content'); // 获取文本内容
   const image = body.get('image');     // 获取文件对象（File 或 Blob）
 
