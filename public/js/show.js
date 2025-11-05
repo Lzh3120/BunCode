@@ -1,6 +1,6 @@
 const contentList = document.getElementById('contentList');
 const messageDiv = document.getElementById('message');
-const showEndpoint = 'http://8.140.244.241:3000/content/show'; // 获取内容的接口
+const showEndpoint = '/content/show'; // 获取内容的接口
 const deleteEndpoint = '/content/delete'; // 删除内容的接口
 const fileInfoEndpoint = '/content/'; // 图片展示接口
 

@@ -1,7 +1,7 @@
 const form = document.getElementById('submissionForm');
 const submitBtn = document.getElementById('submitBtn');
 const messageDiv = document.getElementById('message');
-const endpoint = 'http://8.140.244.241:3000/content/save'; // 目标接口地址
+const endpoint = '/content/save'; // 目标接口地址
 
 
 form.addEventListener('submit', async function(event) {
