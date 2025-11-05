@@ -3,6 +3,7 @@ import { contentRoutes } from "./routes/roure.ts";
 import { staticRoutes } from "./routes/staticRouter.ts";
 import { cors } from "hono/cors";
 import { bearerAuth } from "hono/bearer-auth";
+import { serve } from "bun";
 
 const app = new Hono();
 
@@ -24,5 +25,8 @@ app.use('/*', cors({
 app.notFound((c) => {
   return c.text('Not Found', 404);
 });
-
-export default app
+serve({ 
+  fetch: app.fetch, 
+  port: 443, 
+});
+//export default app
