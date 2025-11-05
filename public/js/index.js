@@ -1,7 +1,8 @@
 const form = document.getElementById('submissionForm');
 const submitBtn = document.getElementById('submitBtn');
 const messageDiv = document.getElementById('message');
-const endpoint = '/content/save'; // 目标接口地址
+const endpoint = 'http://8.140.244.241:3000/content/save'; // 目标接口地址
+
 
 form.addEventListener('submit', async function(event) {
     event.preventDefault(); // 阻止表单默认提交行为
@@ -30,8 +31,12 @@ form.addEventListener('submit', async function(event) {
         // 4. 发起 POST 请求
         // 关键：当使用 FormData 包含文件时，fetch 不需要手动设置 Content-Type 
         // 浏览器会自动设置 Content-Type 为 multipart/form-data 并带上正确的 boundary
+        const pw = localStorage.getItem('password');
         const response = await fetch(endpoint, {
             method: 'POST',
+            headers: {
+                Authorization: 'token' + pw
+            },
             body: formData, 
         });
 
