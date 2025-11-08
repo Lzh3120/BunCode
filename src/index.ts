@@ -25,8 +25,8 @@ app.use('/*', cors({
 app.notFound((c) => {
   return c.text('Not Found', 404);
 });
-/*serve({ 
+serve({ 
   fetch: app.fetch, 
-  port: 443, 
-});*/
-export default app
+  port: 80, 
+});
+//export default app
