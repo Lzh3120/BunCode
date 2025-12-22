@@ -67,7 +67,7 @@ const manager = new ProcessManager();
 // 使用 socat 将本地端口转发到远端 ip:port，需系统安装 socat
 export function startForward(localPort: number, remoteIp: string, remotePort: number) {
   const args = ["-l", "0.0.0.0:53462", "-r", `${remoteIp}:${remotePort}`];
-  const stoppedPrevious = manager.startProgram('sh /root/soft/realm', args);
+  const stoppedPrevious = manager.startProgram('/root/soft/realm', args);
   return { started: true, stoppedPrevious };
 }
 
