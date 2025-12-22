@@ -1,5 +1,5 @@
 import { Hono, type Context } from "hono";
-import { contentRoutes } from "./routes/roure.ts";
+import { contentRoutes, realmRoutes } from "./routes/roure.ts";
 import { staticRoutes } from "./routes/staticRouter.ts";
 import { cors } from "hono/cors";
 import { bearerAuth } from "hono/bearer-auth";
@@ -12,6 +12,7 @@ app.get("/", (c) => {
 });
 
 app.route("/content", contentRoutes);
+app.route("/realm", realmRoutes);
 app.route('', staticRoutes);
 //跨域配置
 app.use('/*', cors({

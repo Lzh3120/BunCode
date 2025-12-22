@@ -20,6 +20,14 @@ export class DB{
                 imgInfo TEXT NOT NULL
             );
             `);
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS realm (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                ip TEXT NOT NULL,
+                port TEXT NOT NULL,
+                mark TEXT NOT NULL
+            );
+            `);
     }
 
     public getDB():Database{
