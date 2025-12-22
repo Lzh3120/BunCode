@@ -28,6 +28,6 @@ app.notFound((c) => {
 });
 serve({ 
   fetch: app.fetch, 
-  port: 80, 
+  port: 3001, 
 });
-//export default app
+export default app

@@ -12,8 +12,8 @@ contentRoutes.post('delete', remove);
 export const realmRoutes = new Hono();
 
 // Realm management routes
-realmRoutes.post('realm/add', realmAdd);
-realmRoutes.post('realm/delete', realmRemove);
-realmRoutes.post('realm/list', realmList);
-realmRoutes.post('realm/forward', realmForward);
-realmRoutes.post('realm/update', realmUpdate);
+realmRoutes.post('add', realmAdd);
+realmRoutes.post('delete', realmRemove);
+realmRoutes.post('list', realmList);
+realmRoutes.post('forward', realmForward);
+realmRoutes.post('update', realmUpdate);

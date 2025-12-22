@@ -9,7 +9,7 @@ class ProcessManager {
       console.log('已有进程在运行，先停止它');
       stoppedPrevious = this.stopProgram();
     }
-    this.child = spawn(command, args, { stdio: 'inherit', shell: false });
+    this.child = spawn(command, args, { stdio: 'inherit', shell: true });
 
     this.child.on('error', (err) => {
       console.error('启动失败:', err);
@@ -64,8 +64,8 @@ const manager = new ProcessManager();
 // 导出的 API：startForward / stopForward
 // 使用 socat 将本地端口转发到远端 ip:port，需系统安装 socat
 export function startForward(localPort: number, remoteIp: string, remotePort: number) {
-  const args = [`TCP-LISTEN:${localPort},reuseaddr,fork`, `TCP:${remoteIp}:${remotePort}`];
-  const stoppedPrevious = manager.startProgram('socat', args);
+  const args = ["-l", "0.0.0.0:53462", "-r", `${remoteIp}:${remotePort}`];
+  const stoppedPrevious = manager.startProgram('sh /root/soft/realm', args);
   return { started: true, stoppedPrevious };
 }
 

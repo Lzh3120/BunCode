@@ -6,19 +6,29 @@ import { startForward } from "../utils/spawn";
 const REQUIRED_AUTH = 'cC321321..';
 
 export async function add(c: Context) {
-    const authorization = c.req.header("Authorization");
-    if (authorization !== REQUIRED_AUTH) {
-        return c.json({ message: 'Unauthorized' }, 401);
-    }
-
+    //const authorization = c.req.header("Authorization");
+    //if (authorization !== REQUIRED_AUTH) {
+    //    return c.json({ message: 'Unauthorized' }, 401);
+    //}
+    console.log('add realm called');
     const body = await c.req.json();
     const ip = body.ip;
     const port = body.port;
     const remark = body.remark || null;
-
     if (!ip || !port) {
         return c.json({ message: 'IP和端口不能为空' }, 400);
     }
+
+    // 校验 IP 和端口
+    const ipRegex = /^[a-zA-Z0-9.]+$/;
+    if (!ipRegex.test(ip)) {
+        return c.json({ message: 'IP 地址只能包含字符、数字和点' }, 400);
+    }
+
+    if (!port || isNaN(port) || port < 1 || port > 65535) {
+        return c.json({ message: '端口必须是 1 到 65535 之间的数字' }, 400);
+    }
+
 
     const realmDao = new RealmDao();
     const id = realmDao.create(ip.toString(), Number(port), remark ? remark.toString() : undefined);
@@ -26,10 +36,7 @@ export async function add(c: Context) {
 }
 
 export function list(c: Context) {
-    const authorization = c.req.header("Authorization");
-    if (authorization !== REQUIRED_AUTH) {
-        return c.json({ message: 'Unauthorized' }, 401);
-    }
+    
 
     const realmDao = new RealmDao();
     const items = realmDao.findAll();
@@ -37,10 +44,7 @@ export function list(c: Context) {
 }
 
 export async function remove(c: Context) {
-    const authorization = c.req.header("Authorization");
-    if (authorization !== REQUIRED_AUTH) {
-        return c.json({ message: 'Unauthorized' }, 401);
-    }
+    
 
     const body = await c.req.json();
     const id = body.id;
@@ -55,10 +59,7 @@ export async function remove(c: Context) {
 
 // 将本地 6666 转发到 realm 表中指定 id 的 ip:port
 export async function forward(c: Context) {
-    const authorization = c.req.header("Authorization");
-    if (authorization !== REQUIRED_AUTH) {
-        return c.json({ message: 'Unauthorized' }, 401);
-    }
+    
 
     const body = await c.req.json();
     const id = body.id;
@@ -77,7 +78,7 @@ export async function forward(c: Context) {
 
     // 启动转发：本地 6666 -> ip:port
     try {
-        startForward(6666, ip, port);
+        startForward(53462, ip, port);
         return c.json({ message: 'forward started', id, target: `${ip}:${port}` });
     } catch (e) {
         console.error('forward error', e);
