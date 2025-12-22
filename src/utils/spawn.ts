@@ -9,7 +9,9 @@ class ProcessManager {
       console.log('已有进程在运行，先停止它');
       stoppedPrevious = this.stopProgram();
     }
-    this.child = spawn(command, args, { stdio: 'inherit', shell: true });
+    this.child = spawn(command, args, { stdio: 'inherit', shell: false });
+
+    console.log(`启动的进程 PID: ${this.child.pid}`);
 
     this.child.on('error', (err) => {
       console.error('启动失败:', err);
