@@ -1,4 +1,4 @@
-import { spawn, ChildProcess } from 'child_process';
+import { spawn, exec, execSync, ChildProcess } from 'child_process';
 
 class ProcessManager {
   private child: ChildProcess | null = null;
@@ -26,40 +26,30 @@ class ProcessManager {
     return stoppedPrevious;
   }
 
-  stopProgram() {
-    if (this.child) {
-      console.log('正在终止进程...');
-      const pid = this.child.pid;
+  async stopProgram() {
+    try {
+      // 使用 ps -ef 查询进程
+      const result = execSync(`ps -ef | grep '/root/soft/realm' | grep -v grep`).toString();
+      const lines = result.split('\n').filter((line) => line.trim() !== '');
 
-      try {
-        this.child.kill('SIGTERM');
-      } catch (e) {
-        console.error('SIGTERM 发送失败', e);
+      if (lines.length === 0) {
+        console.log('未找到正在运行的进程');
+        return false;
       }
 
-      return new Promise((resolve) => {
-        this.child?.on('exit', () => {
-          console.log('进程已成功终止');
-          this.child = null;
-          resolve(true);
-        });
+      for (const line of lines) {
+        const columns = line.split(/\s+/);
+        const pid = columns[1]; // 第二列是 PID
+        console.log(`正在终止进程 PID: ${pid}`);
+        process.kill(parseInt(pid), 'SIGTERM'); // 发送 SIGTERM 信号
+      }
 
-        // 如果进程未响应 SIGTERM，强制终止
-        setTimeout(() => {
-          try {
-            if (pid && process.kill(pid, 0)) {
-              process.kill(pid, 'SIGKILL');
-            }
-          } catch (e) {
-            console.error('SIGKILL 发送失败', e);
-          }
-          this.child = null;
-          resolve(true);
-        }, 500);
-      });
-    } else {
-      console.log('没有正在运行的进程');
-      return Promise.resolve(false);
+      console.log('进程已成功终止');
+      this.child = null;
+      return true;
+    } catch (error) {
+      console.error('终止进程时发生错误:', error);
+      return false;
     }
   }
 }
@@ -74,7 +64,7 @@ export async function startForward(localPort: number, remoteIp: string, remotePo
   return { started: true, stoppedPrevious };
 }
 
-export function stopForward() {
-  const stopped = manager.stopProgram();
+export async function stopForward() {
+  const stopped = await manager.stopProgram();
   return { stopped };
 }
