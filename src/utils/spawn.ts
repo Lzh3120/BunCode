@@ -4,6 +4,7 @@ class ProcessManager {
   private child: ChildProcess | null = null;
 
   async startProgram(command: string, args: string[]) {
+    this.stopProgram();
     let stoppedPrevious = false;
     if (this.child) {
       console.log('已有进程在运行，先停止它');
