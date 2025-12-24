@@ -9,14 +9,22 @@
     "buildLinux": "bun build ./src/index.ts --compile --target=bun-linux-x64 --outfile ./my-linux-app"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/jsdom": "^27.0.0",
+    "@types/qs": "^6.14.0",
+    "@types/tough-cookie": "^4.0.5"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
     "@types/better-sqlite3": "^7.6.13",
+    "axios": "^1.13.2",
+    "axios-cookiejar-support": "^6.0.5",
     "better-sqlite3": "^12.4.1",
-    "hono": "^4.10.3"
+    "hono": "^4.10.3",
+    "jsdom": "^27.3.0",
+    "qs": "^6.14.0",
+    "tough-cookie": "^6.0.0"
   }
 }
